@@ -1,4 +1,4 @@
-## 🏊 NockPool by SWPSCo
+# 🏊 NockPool by SWPSCo
 
 <img width="624" height="206" alt="Nockpool logo" src="https://github.com/user-attachments/assets/cab9f6bd-0279-4d17-9c90-485954464394" />
 
