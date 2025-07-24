@@ -1,0 +1,24 @@
+[package]
+name = "quiver"
+edition.workspace = true
+version.workspace = true
+
+[dependencies]
+tokio = { workspace = true }
+tracing = { workspace = true }
+anyhow = { workspace = true }
+rustls = { workspace = true }
+quinn = "0.11"
+bincode = { workspace = true }
+async-trait = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+uuid = { workspace = true, features = ["v4", "serde"] }
+bytes = { workspace = true }
+sha2 = { workspace = true }
+
+# nockchain
+nockchain-libp2p-io = { workspace = true }
+nockapp = { workspace = true }
+
+[lints]
+workspace = true
