@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       (github.event_name == 'push') ||
-      (github.event_name == 'workflow_dispatch' && inputs.build_linux)
+      (github.event_name == 'workflow_dispatch' && (inputs.build_linux || inputs.build_docker))
     steps:
       - uses: actions/checkout@v4
       
