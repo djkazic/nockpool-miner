@@ -18,6 +18,11 @@ on:
         required: false
         default: true
         type: boolean
+      enable_slsa:
+        description: 'Generate SLSA provenance (requires public repo)'
+        required: false
+        default: false
+        type: boolean
       create_release:
         description: 'Create GitHub release'
         required: false
@@ -269,7 +274,10 @@ jobs:
     with:
       base64-subjects: ${{ needs.package.outputs.content_hashes }}
       upload-assets: false
-    if: needs.package.outputs.content_hashes != ''
+    if: |
+      needs.package.outputs.content_hashes != '' &&
+      github.event_name == 'workflow_dispatch' && 
+      inputs.enable_slsa == true
 
   create-release:
     runs-on: ubuntu-latest
@@ -289,6 +297,7 @@ jobs:
         path: release-assets
 
     - name: download provenance
+      if: github.event_name == 'workflow_dispatch' && inputs.enable_slsa == true
       uses: actions/download-artifact@v4
       with:
         name: ${{ needs.provenance.outputs.provenance-name }}
@@ -314,6 +323,10 @@ jobs:
         ## nockpool-miner Release $SHORT_SHA
         
         Built from commit \`$SHORT_SHA\`
+        EOF
+        
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.enable_slsa }}" = "true" ]; then
+          cat >> release-notes.md << EOF
         
         ### Verification
         
@@ -323,6 +336,10 @@ jobs:
         - Get the slsa3-verifier for your platform: https://github.com/slsa-framework/slsa-verifier
         - Download the \`multiple.intoto.jsonl\` file from this release
         - Run: \`slsa-verifier-linux-amd64 verify-artifact nockpool-miner-linux-x86_64 --provenance-path multiple.intoto.jsonl --source-uri=git+https://github.com/${{ github.repository }}\`
+        EOF
+        fi
+        
+        cat >> release-notes.md << EOF
         
         ### Changes
         $(git log --oneline -10 --pretty=format:"- %s" HEAD || echo "- Latest changes")
@@ -348,7 +365,7 @@ jobs:
         body_path: release-notes.md
         files: |
           release-assets/*
-          prov/${{ needs.provenance.outputs.provenance-name }}
+          ${{ github.event_name == 'workflow_dispatch' && inputs.enable_slsa == true && format('prov/{0}', needs.provenance.outputs.provenance-name) || '' }}
         draft: false
         prerelease: true
         generate_release_notes: false
