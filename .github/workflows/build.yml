@@ -1,4 +1,4 @@
-name: Nockpool miner build and release
+name: Miner build and release
 
 permissions:
   contents: write
@@ -8,6 +8,16 @@ on:
     branches: [main, staging]
   workflow_dispatch:
     inputs:
+      build_linux:
+        description: 'Build Linux binary'
+        required: false
+        default: true
+        type: boolean
+      build_macos:
+        description: 'Build macOS binary'
+        required: false
+        default: true
+        type: boolean
       create_release:
         description: 'Create GitHub release'
         required: false
@@ -33,6 +43,9 @@ jobs:
   build-linux-x64:
     needs: vars
     runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'push') ||
+      (github.event_name == 'workflow_dispatch' && inputs.build_linux)
     steps:
       - uses: actions/checkout@v4
       
@@ -61,6 +74,9 @@ jobs:
   build-macos:
     needs: vars
     runs-on: [self-hosted, macOS, ARM64]
+    if: |
+      (github.event_name == 'push') ||
+      (github.event_name == 'workflow_dispatch' && inputs.build_macos)
     steps:
       - uses: actions/checkout@v4
       
@@ -174,7 +190,7 @@ jobs:
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0"><dict>
-            <key>CFBundleName</key><string>Nockpool Installer</string>
+            <key>CFBundleName</key><string>miner Installer</string>
             <key>CFBundleExecutable</key><string>install</string>
             <key>CFBundleIconFile</key><string>icon.icns</string>
             <key>CFBundlePackageType</key><string>APPL</string>
@@ -185,9 +201,9 @@ jobs:
                    --identifier io.swps.nockpool.pkg \
                    --version ${{ needs.vars.outputs.short_sha }} \
                    --install-location / \
-                   miner-unsigned.pkg
+                   nockpool-unsigned.pkg
           productsign --sign "Developer ID Installer: Southwestern Pool Supply CO INC (484J85QW9N)" \
-                      miner-unsigned.pkg "dist/nockpool.pkg"
+                      nockpool-unsigned.pkg "dist/nockpool.pkg"
           xcrun notarytool submit "dist/nockpool.pkg" \
                --key key.p8 --key-id "$AC_API_KEY_ID" \
                --issuer "$AC_API_ISSUER_ID" --team-id "$TEAM_ID" --wait
@@ -203,21 +219,30 @@ jobs:
   package:
     needs: [build-linux-x64, build-macos]
     runs-on: ubuntu-latest
+    if: always() && !failure() && !cancelled()
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download Linux artifacts
+        if: needs.build-linux-x64.result == 'success'
+        uses: actions/download-artifact@v4
         with:
           name: linux-artifacts-x64
           path: ./linux_x64
-      - uses: actions/download-artifact@v4
+      - name: Download macOS artifacts
+        if: needs.build-macos.result == 'success'
+        uses: actions/download-artifact@v4
         with:
           name: mac-installer
           path: ./mac
       - name: make release assets
         run: |
           mkdir -p out
-          cp linux_x64/miner out/miner-linux-x86_64
-          chmod +x out/miner-linux-x86_64
-          cp mac/nockpool.pkg out/miner-macos-aarch64.pkg
+          if [ -f "linux_x64/miner" ]; then
+            cp linux_x64/miner out/miner-linux-x86_64
+            chmod +x out/miner-linux-x86_64
+          fi
+          if [ -f "mac/nockpool.pkg" ]; then
+            cp mac/nockpool.pkg out/miner-macos-aarch64.pkg
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: packaged-artifacts
@@ -245,6 +270,17 @@ jobs:
       run: |
         SHORT_SHA=${{ needs.vars.outputs.short_sha }}
         echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
+        
+        # Check what was built
+        LINUX_BUILT="false"
+        MACOS_BUILT="false"
+        if [ -f "release-assets/miner-linux-x86_64" ]; then
+          LINUX_BUILT="true"
+        fi
+        if [ -f "release-assets/miner-macos-aarch64.pkg" ]; then
+          MACOS_BUILT="true"
+        fi
+        
         cat > release-notes.md << EOF
         ## Miner Release $SHORT_SHA
         
@@ -254,12 +290,17 @@ jobs:
         $(git log --oneline -10 --pretty=format:"- %s" HEAD || echo "- Latest changes")
         
         ### Binaries
-        - **miner-linux-x86_64**: nockpool miner for Linux x86_64 (musl static)
-        - **miner-macos-aarch64.pkg**: signed and notarized installer for macOS Apple Silicon
-        
-        ### MacOS Installation
-        Download the .pkg file and double-click to install. The binary will be installed to /usr/local/bin/miner.
         EOF
+        
+        if [ "$LINUX_BUILT" = "true" ]; then
+          echo "- **miner-linux-x86_64**: nockpool miner for Linux x86_64 (musl static)" >> release-notes.md
+        fi
+        if [ "$MACOS_BUILT" = "true" ]; then
+          echo "- **miner-macos-aarch64.pkg**: signed and notarized installer for macOS Apple Silicon" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "### MacOS Installation" >> release-notes.md
+          echo "Download the .pkg file and double-click to install. The binary will be installed to /usr/local/bin/miner." >> release-notes.md
+        fi
         
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
