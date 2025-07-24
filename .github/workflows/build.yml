@@ -1,4 +1,4 @@
-name: Miner build and release
+name: Nockpool miner build and release
 
 permissions:
   contents: write
