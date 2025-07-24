@@ -18,6 +18,11 @@ on:
         required: false
         default: true
         type: boolean
+      build_docker:
+        description: 'Build Docker image'
+        required: false
+        default: true
+        type: boolean
       enable_slsa:
         description: 'Generate SLSA provenance (requires public repo)'
         required: false
@@ -221,8 +226,64 @@ jobs:
           name: mac-installer
           path: dist/*.pkg
 
+  build-docker:
+    needs: [vars, build-linux-x64]
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'workflow_dispatch' && inputs.build_docker)
+    outputs:
+      image_digest: ${{ steps.build.outputs.digest }}
+      image_name: ${{ steps.meta.outputs.tags }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Linux binary
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-artifacts-x64
+          path: ./linux_x64
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Log in to Dockerhub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: swpsco/nockpool-miner
+          tags: |
+            type=raw,value=latest
+            type=raw,value=${{ needs.vars.outputs.short_sha }}
+          
+      - name: Create Dockerfile
+        run: |
+          cat << 'EOF' > Dockerfile
+          FROM alpine:latest
+          WORKDIR /nockpool
+          RUN apk --no-cache add ca-certificates
+          COPY linux_x64/miner /usr/local/bin/nockpool-miner
+          RUN chmod +x /usr/local/bin/nockpool-miner
+          ENTRYPOINT ["nockpool-miner", "--help"]
+          EOF
+          
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          no-cache: true
+
   package:
-    needs: [build-linux-x64, build-macos]
+    needs: [build-linux-x64, build-macos, build-docker]
     runs-on: ubuntu-latest
     if: always() && !failure() && !cancelled()
     outputs:
@@ -312,11 +373,15 @@ jobs:
         # Check what was built
         LINUX_BUILT="false"
         MACOS_BUILT="false"
+        DOCKER_BUILT="false"
         if [ -f "release-assets/nockpool-miner-linux-x86_64" ]; then
           LINUX_BUILT="true"
         fi
         if [ -f "release-assets/nockpool-miner-macos-aarch64.pkg" ]; then
           MACOS_BUILT="true"
+        fi
+        if [ "${{ needs.build-docker.result }}" = "success" ]; then
+          DOCKER_BUILT="true"
         fi
         
         cat > release-notes.md << EOF
@@ -355,6 +420,16 @@ jobs:
           echo "" >> release-notes.md
           echo "### MacOS Installation" >> release-notes.md
           echo "Download the .pkg file and double-click to install. The binary will be installed to /usr/local/bin/miner." >> release-notes.md
+        fi
+        if [ $DOCKER_BUILT = "true" ]; then
+          echo "" >> release-notes.md
+          echo "### Docker Image" >> release-notes.md
+          echo "- **swpsco/nockpool-miner:latest** and **swpsco/nockpool-miner:$SHORT_SHA**" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "\`\`\`bash" >> release-notes.md
+          echo "docker pull swpsco/nockpool-miner:latest" >> release-notes.md
+          echo "docker run swpsco/nockpool-miner:latest" >> release-notes.md
+          echo "\`\`\`" >> release-notes.md
         fi
         
     - name: Create GitHub Release
