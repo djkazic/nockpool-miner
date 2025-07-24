@@ -8,12 +8,36 @@ This repo includes code and binaries necessary to participate in [Nockpool](http
 
 You can download the prebuilt binaries in the release tab. The macOS bins are codesigned and the Linux bins are SLSA3 attested -- we recommend [verifying](https://github.com/slsa-framework/slsa-verifier).
 
+
 ### Run
 
 
 ```
-miner-linux-x86_64 --key nockpool_yourapikeyhere123  --max-threads 12
+miner-linux-x86_64 --key nockpool_yourdevicekeyhere123  --max-threads 12
 ```
+
+---
+
+## FAQ
+
+#### Where do I get a device key?
+
+Create an account at [nockpool.com](https://nockpool.com) to create device keys.
+
+#### How many threads should I use?
+
+Logical cores times two minus 4 is a good rule of thumb. E.g., if you have a 16 core Ryzen capable of 32 threads, 28 would be a good target.
+
+#### How much memory do I need?
+
+As much as you can get! Recommended minimum 6GB per thread.
+
+
+#### How do I use custom jets?
+
+Just swap out the `zkvm-jetpack` dependency in `Cargo.toml`.
+
+--- 
 
 ### Building
 
@@ -36,4 +60,10 @@ Build:
 
 ```bash
 cargo build --release
+```
+
+Run: 
+
+```
+target/release/miner --key nockpool_yourdevicekeyhere123
 ```
