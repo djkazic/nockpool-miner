@@ -176,21 +176,21 @@ jobs:
           rm -rf pkgroot
           mkdir -p \
             pkgroot/usr/local/bin \
-            "pkgroot/Applications/miner Installer.app/Contents/MacOS" \
-            "pkgroot/Applications/miner Installer.app/Contents/Resources"
+            "pkgroot/Applications/nockpool-miner Installer.app/Contents/MacOS" \
+            "pkgroot/Applications/nockpool-miner Installer.app/Contents/Resources"
           cp target/aarch64-apple-darwin/release/miner pkgroot/usr/local/bin/
-          cp icon.icns "pkgroot/Applications/miner Installer.app/Contents/Resources/"
-          cat > "pkgroot/Applications/miner Installer.app/Contents/MacOS/install" <<EOF
+          cp icon.icns "pkgroot/Applications/nockpool-miner Installer.app/Contents/Resources/"
+          cat > "pkgroot/Applications/nockpool-miner Installer.app/Contents/MacOS/install" <<EOF
           #!/usr/bin/env bash
           osascript -e 'tell application "Terminal" to do script "miner --help"'
           EOF
-          chmod +x "pkgroot/Applications/miner Installer.app/Contents/MacOS/install"
+          chmod +x "pkgroot/Applications/nockpool-miner Installer.app/Contents/MacOS/install"
           
-          cat > "pkgroot/Applications/miner Installer.app/Contents/Info.plist" <<EOF
+          cat > "pkgroot/Applications/nockpool-miner Installer.app/Contents/Info.plist" <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0"><dict>
-            <key>CFBundleName</key><string>miner Installer</string>
+            <key>CFBundleName</key><string>nockpool-miner Installer</string>
             <key>CFBundleExecutable</key><string>install</string>
             <key>CFBundleIconFile</key><string>icon.icns</string>
             <key>CFBundlePackageType</key><string>APPL</string>
@@ -198,16 +198,16 @@ jobs:
           EOF
           
           pkgbuild --root pkgroot \
-                   --identifier io.swps.nockpool.pkg \
+                   --identifier io.swps.nockpool-miner.pkg \
                    --version ${{ needs.vars.outputs.short_sha }} \
                    --install-location / \
-                   nockpool-unsigned.pkg
+                   nockpool-miner-unsigned.pkg
           productsign --sign "Developer ID Installer: Southwestern Pool Supply CO INC (484J85QW9N)" \
-                      nockpool-unsigned.pkg "dist/nockpool.pkg"
-          xcrun notarytool submit "dist/nockpool.pkg" \
+                      nockpool-miner-unsigned.pkg "dist/nockpool-miner.pkg"
+          xcrun notarytool submit "dist/nockpool-miner.pkg" \
                --key key.p8 --key-id $AC_API_KEY_ID \
                --issuer $AC_API_ISSUER_ID --team-id $TEAM_ID --wait
-          xcrun stapler staple "dist/nockpool.pkg"
+          xcrun stapler staple "dist/nockpool-miner.pkg"
           
           rm -rf key.p8 pkgroot icon.icns
 
@@ -220,6 +220,8 @@ jobs:
     needs: [build-linux-x64, build-macos]
     runs-on: ubuntu-latest
     if: always() && !failure() && !cancelled()
+    outputs:
+      content_hashes: ${{ steps.content-hash.outputs.content_hashes }}
     steps:
       - name: Download Linux artifacts
         if: needs.build-linux-x64.result == 'success'
@@ -240,17 +242,38 @@ jobs:
             cp linux_x64/miner out/nockpool-miner-linux-x86_64
             chmod +x out/nockpool-miner-linux-x86_64
           fi
-          if [ -f "mac/nockpool.pkg" ]; then
-            cp mac/nockpool.pkg out/nockpool-miner-macos-aarch64.pkg
+          if [ -f "mac/nockpool-miner.pkg" ]; then
+            cp mac/nockpool-miner.pkg out/nockpool-miner-macos-aarch64.pkg
+          fi
+      - name: compute content hashes
+        id: content-hash
+        run: |
+          files=$(find out/ -type f)
+          if [ -n "$files" ]; then
+            echo "content_hashes=$(sha256sum $files | base64 -w0)" >> $GITHUB_OUTPUT
+          else
+            echo "content_hashes=" >> $GITHUB_OUTPUT
           fi
       - uses: actions/upload-artifact@v4
         with:
           name: packaged-artifacts
           path: out/*
 
+  provenance:
+    needs: package
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    with:
+      base64-subjects: ${{ needs.package.outputs.content_hashes }}
+      upload-assets: false
+    if: needs.package.outputs.content_hashes != ''
+
   create-release:
     runs-on: ubuntu-latest
-    needs: [vars, package]
+    needs: [vars, package, provenance]
     if: |
       always() && !failure() && !cancelled() &&
       ((github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging')) ||
@@ -264,6 +287,12 @@ jobs:
       with:
         name: packaged-artifacts
         path: release-assets
+
+    - name: download provenance
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ needs.provenance.outputs.provenance-name }}
+        path: ./prov
         
     - name: Generate release notes
       id: release_notes
@@ -282,9 +311,18 @@ jobs:
         fi
         
         cat > release-notes.md << EOF
-        ## Miner Release $SHORT_SHA
+        ## nockpool-miner Release $SHORT_SHA
         
         Built from commit \`$SHORT_SHA\`
+        
+        ### Verification
+        
+        All artifacts have [SLSA level 3](https://github.blog/security/supply-chain-security/slsa-3-compliance-with-github-actions/) provenance attestation.
+        
+        **How to verify:**
+        - Get the slsa3-verifier for your platform: https://github.com/slsa-framework/slsa-verifier
+        - Download the \`multiple.intoto.jsonl\` file from this release
+        - Run: \`slsa-verifier-linux-amd64 verify-artifact nockpool-miner-linux-x86_64 --provenance-path multiple.intoto.jsonl --source-uri=git+https://github.com/${{ github.repository }}\`
         
         ### Changes
         $(git log --oneline -10 --pretty=format:"- %s" HEAD || echo "- Latest changes")
@@ -305,10 +343,12 @@ jobs:
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: miner-${{ steps.release_notes.outputs.short_sha }}
-        name: miner build ${{ steps.release_notes.outputs.short_sha }}
+        tag_name: nockpool-miner-${{ steps.release_notes.outputs.short_sha }}
+        name: nockpool-miner build ${{ steps.release_notes.outputs.short_sha }}
         body_path: release-notes.md
-        files: release-assets/*
+        files: |
+          release-assets/*
+          prov/${{ needs.provenance.outputs.provenance-name }}
         draft: false
         prerelease: true
         generate_release_notes: false
