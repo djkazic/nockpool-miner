@@ -30,8 +30,7 @@ Logical cores times two minus 4 is a good rule of thumb. E.g., if you have a 16 
 
 #### How much memory do I need?
 
-As much as you can get! Recommended minimum 6GB per thread.
-
+As much as you can get! Recommended 8GB + 2.5 per thread.
 
 #### How do I use custom jets?
 
