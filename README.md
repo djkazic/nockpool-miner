@@ -61,9 +61,9 @@ target/release/miner --key nockpool_yourdevicekeyhere123
 | Flag | Environment Variable | Default | Description |
 |---|---|---|---|
 | `--key` | `KEY` | (required) | The device key for authentication with the nockpool server. |
-| `--max-threads` | `MAX_THREADS` | (all available cores - 2) | Set the maximum number of threads to use for mining. Uses all available cores minus 2 if not set. |
-| `--server-address` | `SERVER_ADDRESS` | `127.0.0.1:27016` | The `ip:port` of the nockpool server. |
-| `--client-address` | `CLIENT_ADDRESS` | `0.0.0.0:27017` | The `ip:port` of the quiver client. |
+| `--max-threads` | `MAX_THREADS` | (all available threads - 2) | Set the maximum number of threads to use for mining. |
+| `--server-address` | `SERVER_ADDRESS` | `quiver.nockpool.com:27016` | The `ip:port` of the nockpool server. |
+| `--client-address` | `CLIENT_ADDRESS` | `0.0.0.0:27017` | The `ip:port` of the quiver client. Not necessary to set it. |
 | `--network-only` | `NETWORK_ONLY` | `false` | If we only want to mine for network shares, set this to true. |
 | `--insecure` | `INSECURE` | `false` | If we want to use an insecure connection to the nockpool server, set this to true. |
 | `--benchmark` | `BENCHMARK` | `false` | Run benchmarking tool to test the performance of the miner. This flag will ignore all other arguments. |

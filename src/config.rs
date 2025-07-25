@@ -12,7 +12,7 @@ pub struct Config {
     pub max_threads: Option<u32>,
 
     /// The `ip:port` of the nockpool server.
-    #[arg(long, default_value = "127.0.0.1:27016")]
+    #[arg(long, default_value = "quiver.nockpool.com:27016")]
     pub server_address: String,
 
     /// The `ip:port` of the quiver client.
