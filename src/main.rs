@@ -45,7 +45,7 @@ async fn main() {
     // --- Gather System Info ---
     let device_info = device::get_device_info();
     tracing::info!(
-        "Starting miner with OS='{}', CPU='{}', RAM='{}'GB",
+        "Starting miner with OS='{}', CPU='{}', RAM='{} GB'",
         device_info.os,
         device_info.cpu_model,
         device_info.ram_capacity_gb
@@ -70,6 +70,7 @@ async fn main() {
             submission_provider,
             submission_response_handler).await {
             error!("Error running client: {}", e);
+            std::process::exit(1);
         }
     });
 

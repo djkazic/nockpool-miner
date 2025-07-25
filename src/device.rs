@@ -11,8 +11,8 @@ pub fn get_device_info() -> DeviceInfo {
     let ram_capacity_gb = sys.total_memory() / (1024 * 1024 * 1024);
 
     DeviceInfo {
-        os: os.clone(),
-        cpu_model: cpu_model.clone(),
+        os: os.clone().trim().to_string(),
+        cpu_model: cpu_model.clone().trim().to_string(),
         ram_capacity_gb,
     }
 }
