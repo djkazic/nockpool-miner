@@ -267,7 +267,7 @@ jobs:
           FROM alpine:latest
           WORKDIR /nockpool
           RUN apk --no-cache add ca-certificates
-          COPY linux_x64/miner /usr/local/bin/nockpool-miner
+          COPY linux_x64/nockpool-miner /usr/local/bin/nockpool-miner
           RUN chmod +x /usr/local/bin/nockpool-miner
           ENTRYPOINT ["nockpool-miner", "--help"]
           EOF
@@ -304,8 +304,8 @@ jobs:
       - name: make release assets
         run: |
           mkdir -p out
-          if [ -f "linux_x64/miner" ]; then
-            cp linux_x64/miner out/nockpool-miner-linux-x86_64
+          if [ -f "linux_x64/nockpool-miner" ]; then
+            cp linux_x64/nockpool-miner out/nockpool-miner-linux-x86_64
             chmod +x out/nockpool-miner-linux-x86_64
           fi
           if [ -f "mac/nockpool-miner.pkg" ]; then
@@ -419,7 +419,7 @@ jobs:
           echo "- **nockpool-miner-macos-aarch64.pkg**: signed and notarized installer for macOS Apple Silicon" >> release-notes.md
           echo "" >> release-notes.md
           echo "### MacOS Installation" >> release-notes.md
-          echo "Download the .pkg file and double-click to install. The binary will be installed to /usr/local/bin/miner." >> release-notes.md
+          echo "Download the .pkg file and double-click to install. The binary will be installed to /usr/local/bin/nockpool-miner." >> release-notes.md
         fi
         if [ $DOCKER_BUILT = "true" ]; then
           echo "" >> release-notes.md
