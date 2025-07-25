@@ -47,15 +47,6 @@ Clone repo:
 git clone https://github.com/SWPSCO/nockpool-miner
 ```
 
-Install rust nightly:
-
-```
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-rustup override set nightly
-
-```
-
-
 Build:
 
 ```bash
