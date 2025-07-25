@@ -73,7 +73,7 @@ jobs:
         env:
           RUSTFLAGS: "-A warnings"
         run: |
-          cargo build --target x86_64-unknown-linux-musl --release --bin miner
+          cargo build --target x86_64-unknown-linux-musl --release
 
       - name: Upload binary as artifact
         uses: actions/upload-artifact@v4
@@ -99,7 +99,7 @@ jobs:
         env:
           RUSTFLAGS: "-A warnings"
         run: |
-          cargo build --target aarch64-apple-darwin --release --bin miner
+          cargo build --target aarch64-apple-darwin --release
 
       - name: import certs
         env:
