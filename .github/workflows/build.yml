@@ -79,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-artifacts-x64
-          path: target/x86_64-unknown-linux-musl/release/miner
+          path: target/x86_64-unknown-linux-musl/release/nockpool-miner
 
   build-macos:
     needs: vars
@@ -164,7 +164,7 @@ jobs:
           codesign --force --options runtime --entitlements ./Entitlements.plist --timestamp \
             --sign "Developer ID Application: Southwestern Pool Supply CO INC (484J85QW9N)" \
             --keychain $KEYCHAIN_NAME \
-            target/aarch64-apple-darwin/release/miner
+            target/aarch64-apple-darwin/release/nockpool-miner
 
       - name: build & notarize installer pkg
         env:
@@ -188,7 +188,7 @@ jobs:
             pkgroot/usr/local/bin \
             "pkgroot/Applications/nockpool-miner Installer.app/Contents/MacOS" \
             "pkgroot/Applications/nockpool-miner Installer.app/Contents/Resources"
-          cp target/aarch64-apple-darwin/release/miner pkgroot/usr/local/bin/
+          cp target/aarch64-apple-darwin/release/nockpool-miner pkgroot/usr/local/bin/
           cp icon.icns "pkgroot/Applications/nockpool-miner Installer.app/Contents/Resources/"
           cat > "pkgroot/Applications/nockpool-miner Installer.app/Contents/MacOS/install" <<EOF
           #!/usr/bin/env bash
