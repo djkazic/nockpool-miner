@@ -282,6 +282,35 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Extract ECR metadata
+        id: meta-ecr
+        uses: docker/metadata-action@v5
+        with:
+          images: 990148762097.dkr.ecr.us-east-2.amazonaws.com/nockpool/miner
+          tags: |
+            type=raw,value=dev-latest
+            type=raw,value=dev-${{ needs.vars.outputs.short_sha }}
+      
+      - name: Build and push to ECR
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta-ecr.outputs.tags }}
+          labels: ${{ steps.meta-ecr.outputs.labels }}
+          no-cache: true
+
   package:
     needs: [build-linux-x64, build-macos, build-docker]
     runs-on: ubuntu-latest
