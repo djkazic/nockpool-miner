@@ -11,7 +11,7 @@ use crate::config::Config;
 
 use clap::Parser;
 use tokio::sync::watch;
-use tracing::error;
+use tracing::{error, info};
 use std::sync::Arc;
 use quiver::types::{Template, Submission, Target};
 use bytes::Bytes;
@@ -60,17 +60,31 @@ async fn main() {
     let client_address = config.client_address.clone();
     let insecure = config.insecure.clone();
     tokio::spawn(async move {
-        if let Err(e) = quiver::client::run(
-            insecure,
-            server_address,
-            client_address,
-            key,
-            device_info,
-            new_job_consumer,
-            submission_provider,
-            submission_response_handler).await {
-            error!("Error running client: {}", e);
-            std::process::exit(1);
+        let mut backoff_ms = 100_u64;
+        let max_backoff_ms = 30_000_u64;
+    
+        loop {
+            if let Err(e) = quiver::client::run(
+                insecure,
+                server_address.clone(),
+                client_address.clone(),
+                key.clone(),
+                device_info.clone(),
+                new_job_consumer.clone(),
+                submission_provider.clone(),
+                submission_response_handler.clone()).await {
+                error!("Error running client: {}", e);
+
+                // sleep for the current backoff
+                info!("Sleeping for {}ms", backoff_ms);
+                tokio::time::sleep(tokio::time::Duration::from_millis(backoff_ms)).await;
+    
+                // double, but don’t exceed max
+                backoff_ms = (backoff_ms * 2).min(max_backoff_ms);
+            } else {
+                // success: reset backoff and immediately retry (or break/return if done)
+                backoff_ms = 100;
+            }
         }
     });
 
