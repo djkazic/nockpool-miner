@@ -4,15 +4,19 @@ mod config;
 mod device;
 mod miner;
 mod submission;
+mod auth;
+mod key_storage;
+mod key_manager;
 
 use crate::new_job::NockPoolNewJobConsumer;
 use crate::submission::{NockPoolSubmissionProvider, NockPoolSubmissionResponseHandler};
 use crate::config::Config;
+use crate::key_manager::{resolve_mining_key, KeyManager};
 
 use clap::Parser;
 use tokio::sync::{watch, mpsc};
 use tracing::{error, info};
-use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
+use std::sync::Arc;
 use quiver::types::{Template, Submission, Target};
 use bytes::Bytes;
 
@@ -28,6 +32,27 @@ async fn main() {
             tracing::error!("Error running benchmark: {}", e);
         }
         tracing::info!("Benchmark completed successfully");
+        return;
+    }
+
+    if config.clear_key {
+        tracing::info!("Clearing stored mining key...");
+        match KeyManager::new() {
+            Ok(key_manager) => {
+                match key_manager.clear_stored_key() {
+                    Ok(()) => {
+                        tracing::info!("Stored mining key cleared successfully");
+                        tracing::info!("Key was stored at: {}", key_manager.get_key_storage_path());
+                    }
+                    Err(e) => {
+                        tracing::error!("Failed to clear stored key: {}", e);
+                    }
+                }
+            }
+            Err(e) => {
+                tracing::error!("Failed to initialize key manager: {}", e);
+            }
+        }
         return;
     }
 
@@ -53,8 +78,6 @@ async fn main() {
 
     // --- Set up panic hook for quiver client ---
     let (panic_tx, mut panic_rx) = mpsc::unbounded_channel::<()>();
-    let client_should_restart = Arc::new(AtomicBool::new(false));
-    let client_should_restart_hook = client_should_restart.clone();
     
     std::panic::set_hook(Box::new(move |panic_info| {
         let payload = panic_info.payload().downcast_ref::<&str>()
@@ -65,7 +88,6 @@ async fn main() {
            payload.contains("TimedOut") ||
            panic_info.location().map_or(false, |l| l.file().contains("quiver")) {
             error!("Quiver client panic detected: {}", payload);
-            client_should_restart_hook.store(true, Ordering::SeqCst);
             let _ = panic_tx.send(());
         }
         
@@ -77,10 +99,13 @@ async fn main() {
         eprintln!("{}", payload);
     }));
 
-    // --- Run the quiver client ---
-    let Some(key) = config.key.clone() else {
-        tracing::error!("No key provided");
-        return;
+    // --- Resolve mining key ---
+    let key = match resolve_mining_key(&config).await {
+        Ok(key) => key,
+        Err(e) => {
+            tracing::error!("Failed to resolve mining key: {}", e);
+            return;
+        }
     };
     let server_address = config.server_address.clone();
     let client_address = config.client_address.clone();
@@ -91,8 +116,6 @@ async fn main() {
         let max_backoff_ms = 30_000_u64;
     
         loop {
-            client_should_restart.store(false, Ordering::SeqCst);
-            
             // Start the quiver client
             let mut client_handle = tokio::spawn({
                 let server_address = server_address.clone();
