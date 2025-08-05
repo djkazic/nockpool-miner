@@ -3877,7 +3877,6 @@ dependencies = [
  "clap",
  "crossbeam-queue",
  "directories",
- "dirs",
  "ed25519-dalek",
  "equix",
  "futures",

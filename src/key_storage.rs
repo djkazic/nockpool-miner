@@ -71,9 +71,9 @@ impl KeyStorage {
         Ok(())
     }
 
+    #[cfg(test)]
     pub fn key_exists(&self) -> bool {
-        self.key_file_path.exists() && 
-        self.load_key().unwrap_or(None).is_some()
+        self.key_file_path.exists()
     }
 
     pub fn get_key_file_path(&self) -> &PathBuf {

@@ -2,8 +2,7 @@ use anyhow::{anyhow, Result};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 
-// SUPABASE_URL is now configurable via Config
-const SUPABASE_ANON_KEY: &str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcHV4YnBpZmVvb3Fkamt3bXZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5NjU2ODIsImV4cCI6MjA2ODU0MTY4Mn0.iRpHFRr9o0wTpfllJeOnwwZMZh1D2HmgCjNI4j7xp_g";
+// API authentication for mining token creation
 
 #[derive(Debug, Serialize)]
 struct CreateMiningTokenRequest {

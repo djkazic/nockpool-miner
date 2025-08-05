@@ -54,9 +54,6 @@ impl KeyManager {
         self.storage.delete_key()
     }
 
-    pub fn has_stored_key(&self) -> bool {
-        self.storage.key_exists()
-    }
 
     pub fn get_key_storage_path(&self) -> String {
         self.storage.get_key_file_path().display().to_string()
