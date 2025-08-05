@@ -60,8 +60,10 @@ impl KeyManager {
     }
 
     fn generate_device_nickname(&self) -> Option<String> {
+        use uuid::Uuid;
+        
         // Try to get hostname as nickname
-        match std::env::var("HOSTNAME")
+        let base_name = match std::env::var("HOSTNAME")
             .or_else(|_| std::env::var("COMPUTERNAME"))
             .or_else(|_| {
                 // Try reading from /etc/hostname on Unix systems
@@ -69,18 +71,18 @@ impl KeyManager {
                     .map(|s| s.trim().to_string())
             }) {
             Ok(hostname) if !hostname.is_empty() => {
-                Some(format!("miner-{}", hostname))
+                format!("miner-{}", hostname)
             }
             _ => {
-                // Fallback to a generic name with timestamp
-                use std::time::{SystemTime, UNIX_EPOCH};
-                let timestamp = SystemTime::now()
-                    .duration_since(UNIX_EPOCH)
-                    .unwrap_or_default()
-                    .as_secs();
-                Some(format!("miner-{}", timestamp))
+                // Fallback to a generic name
+                "miner".to_string()
             }
-        }
+        };
+        
+        // Append UUID to ensure uniqueness
+        let uuid = Uuid::new_v4().to_string();
+        let short_uuid = &uuid[0..8]; // Use first 8 characters of UUID
+        Some(format!("{}-{}", base_name, short_uuid))
     }
 }
 
