@@ -67,11 +67,14 @@ jobs:
       
       - name: Install Linux dependencies
         run: |
-          DEBIAN_FRONTEND=noninteractive sudo apt update && sudo apt install -y musl-tools musl-dev build-essential
+          DEBIAN_FRONTEND=noninteractive sudo apt update && sudo apt install -y \
+            musl-tools musl-dev build-essential
       
       - name: Build miner
         env:
           RUSTFLAGS: "-A warnings"
+          OPENSSL_VENDORED: "1"
+          OPENSSL_STATIC: "1"
         run: |
           cargo build --target x86_64-unknown-linux-musl --release
 

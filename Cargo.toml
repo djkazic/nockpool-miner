@@ -35,6 +35,7 @@ rustls = "0.23"
 quiver = { git = "https://github.com/swpsco/quiver.git", rev = "c8558cb5855c09cd6847709f179bbfcb7b51ec5e" }
 reqwest = { version = "0.11", features = ["json"] }
 directories = "5.0"
+openssl = { version = "0.10", features = ["vendored"] }
 
 # nockchain
 nockchain = { git = "https://github.com/swpsco/nockchain.git", rev = "1e33ba9626e27b11bf1fdb2b5ea4e36cec0fc914", package = "nockchain" }
