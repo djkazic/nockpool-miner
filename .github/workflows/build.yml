@@ -73,8 +73,6 @@ jobs:
       - name: Build miner
         env:
           RUSTFLAGS: "-A warnings"
-          OPENSSL_VENDORED: "1"
-          OPENSSL_STATIC: "1"
         run: |
           cargo build --target x86_64-unknown-linux-musl --release
 
