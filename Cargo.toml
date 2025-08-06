@@ -7,7 +7,6 @@ edition = "2021"
 tokio = { version = "1.44.2", features = ["full"] }
 tracing = { version = "0.1.41" }
 tracing-subscriber = { version = "0.3.19" }
-dirs = { version = "6.0.0" }
 equix = { version = "0.2.3" }
 clap = { version = "4.5.37", features = ["derive"] }
 chrono = { version = "0.4.41", features = ["serde"] }
@@ -34,6 +33,8 @@ bytes = { version = "1.10.1" }
 hyper = { version = "0.14", features = ["full"] }
 rustls = "0.23"
 quiver = { git = "https://github.com/swpsco/quiver.git", rev = "11c1e579436879bb249b543f73a1a616aae86637" }
+reqwest = { version = "0.11", default-features = false, features = ["json","rustls-tls"] }
+directories = "5.0"
 
 # nockchain
 nockchain = { git = "https://github.com/swpsco/nockchain.git", rev = "1e33ba9626e27b11bf1fdb2b5ea4e36cec0fc914", package = "nockchain" }

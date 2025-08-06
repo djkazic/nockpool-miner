@@ -67,7 +67,8 @@ jobs:
       
       - name: Install Linux dependencies
         run: |
-          DEBIAN_FRONTEND=noninteractive sudo apt update && sudo apt install -y musl-tools musl-dev build-essential
+          DEBIAN_FRONTEND=noninteractive sudo apt update && sudo apt install -y \
+            musl-tools musl-dev build-essential
       
       - name: Build miner
         env:
