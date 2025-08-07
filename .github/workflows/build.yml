@@ -63,24 +63,19 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: nightly
-          target: x86_64-unknown-linux-musl
-      
-      - name: Install Linux dependencies
-        run: |
-          DEBIAN_FRONTEND=noninteractive sudo apt update && sudo apt install -y \
-            musl-tools musl-dev build-essential
+          target: x86_64-unknown-linux-gnu
       
       - name: Build miner
         env:
           RUSTFLAGS: "-A warnings"
         run: |
-          cargo build --target x86_64-unknown-linux-musl --release
+          cargo build --target x86_64-unknown-linux-gnu --release
 
       - name: Upload binary as artifact
         uses: actions/upload-artifact@v4
         with:
           name: linux-artifacts-x64
-          path: target/x86_64-unknown-linux-musl/release/nockpool-miner
+          path: target/x86_64-unknown-linux-gnu/release/nockpool-miner
 
   build-macos:
     needs: vars
@@ -265,9 +260,9 @@ jobs:
       - name: Create Dockerfile
         run: |
           cat << 'EOF' > Dockerfile
-          FROM alpine:latest
+          FROM ubuntu:22.04
           WORKDIR /nockpool
-          RUN apk --no-cache add ca-certificates
+          RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
           COPY linux_x64/nockpool-miner /usr/local/bin/nockpool-miner
           RUN chmod +x /usr/local/bin/nockpool-miner
           ENTRYPOINT ["nockpool-miner", "--help"]
@@ -400,7 +395,6 @@ jobs:
         SHORT_SHA=${{ needs.vars.outputs.short_sha }}
         echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
         
-        # Check what was built
         LINUX_BUILT="false"
         MACOS_BUILT="false"
         DOCKER_BUILT="false"
@@ -443,7 +437,7 @@ jobs:
         EOF
         
         if [ $LINUX_BUILT = "true" ]; then
-          echo "- **nockpool-miner-linux-x86_64**: nockpool miner for Linux x86_64 (musl static)" >> release-notes.md
+          echo "- **nockpool-miner-linux-x86_64**: nockpool miner for Linux x86_64 (glibc)" >> release-notes.md
         fi
         if [ $MACOS_BUILT = "true" ]; then
           echo "- **nockpool-miner-macos-aarch64.pkg**: signed and notarized installer for macOS Apple Silicon" >> release-notes.md
