@@ -16,7 +16,7 @@ You can download the prebuilt binaries in the release tab. The macOS bins are co
 nockpool-miner --account-token nockacct_youraccounttokenhere --max-threads 12
 ```
 
-#### Option 2: Using Device Key (Legacy)
+#### Option 2: Using Device Key
 ```bash
 nockpool-miner --key nockpool_yourdevicekeyhere123 --max-threads 12
 ```
@@ -34,7 +34,7 @@ nockpool-miner --key nockpool_yourdevicekeyhere123 --max-threads 12
 
 #### What's the difference between account tokens and device keys?
 
-- **Account tokens** (`nockacct_*`): Long-lived tokens that can create and manage multiple device keys. One per mining location.
+- **Account tokens** (`nockacct_*`): Long-lived tokens that can create and manage multiple device keys.
 - **Device keys** (`nock_*`): Individual mining tokens created automatically by account tokens. One per mining device.
 
 #### Where do I get tokens?
@@ -75,7 +75,7 @@ Run:
 # With account token (recommended)
 target/release/nockpool-miner --account-token nockacct_youraccounttokenhere
 
-# Or with device key (legacy)
+# Or with device key
 target/release/nockpool-miner --key nockpool_yourdevicekeyhere123
 ```
 
@@ -84,7 +84,7 @@ target/release/nockpool-miner --key nockpool_yourdevicekeyhere123
 | Flag | Environment Variable | Default | Description |
 |---|---|---|---|
 | `--account-token` | `NOCKPOOL_ACCOUNT_TOKEN` | - | Account token for generating mining tokens (recommended). |
-| `--key` | `KEY` | - | Direct device key for authentication (legacy). |
+| `--key` | `KEY` | - | Direct device key for authentication. |
 | `--api-url` | `NOCKPOOL_API_URL` | `https://nockpool.com` | Base URL for NockPool API (for development). |
 | `--max-threads` | `MAX_THREADS` | (all available threads - 2) | Set the maximum number of threads to use for mining. |
 | `--server-address` | `SERVER_ADDRESS` | `quiver.nockpool.com:27016` | The `ip:port` of the nockpool server. |
