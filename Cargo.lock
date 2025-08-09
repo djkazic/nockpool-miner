@@ -2202,7 +2202,7 @@ dependencies = [
 [[package]]
 name = "hoonc"
 version = "0.2.0"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 dependencies = [
  "bincode 2.0.1",
  "blake3",
@@ -2210,9 +2210,9 @@ dependencies = [
  "clap",
  "dirs",
  "futures",
- "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "tempfile",
  "thiserror 2.0.12",
  "tokio",
@@ -2446,7 +2446,7 @@ dependencies = [
 [[package]]
 name = "ibig"
 version = "0.3.6"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 dependencies = [
  "cfg-if",
  "num-traits",
@@ -2835,7 +2835,7 @@ dependencies = [
 [[package]]
 name = "kernels"
 version = "0.1.0"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 
 [[package]]
 name = "kqueue"
@@ -3541,7 +3541,7 @@ source = "git+https://github.com/swpsco/nockchain.git?rev=2b912bff818ac5081109f3
 [[package]]
 name = "murmur3"
 version = "0.5.2"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 
 [[package]]
 name = "netlink-packet-core"
@@ -3697,7 +3697,7 @@ dependencies = [
 [[package]]
 name = "nockapp"
 version = "0.1.0"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3716,11 +3716,11 @@ dependencies = [
  "futures",
  "getrandom 0.2.16",
  "gnort",
- "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "instant-acme",
  "intmap",
- "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "opentelemetry",
  "opentelemetry-otlp",
  "opentelemetry_sdk",
@@ -3752,7 +3752,7 @@ dependencies = [
 [[package]]
 name = "nockchain"
 version = "0.1.0"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 dependencies = [
  "bitcoincore-rpc",
  "bs58",
@@ -3760,13 +3760,13 @@ dependencies = [
  "equix",
  "futures",
  "hoonc",
- "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "kernels",
  "libp2p",
- "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockchain-libp2p-io 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockchain-libp2p-io 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "num_cpus",
  "rand 0.8.5",
  "tempfile",
@@ -3808,7 +3808,7 @@ dependencies = [
 [[package]]
 name = "nockchain-libp2p-io"
 version = "0.1.0"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 dependencies = [
  "bs58",
  "bytes",
@@ -3819,11 +3819,11 @@ dependencies = [
  "gnort",
  "hickory-proto",
  "hickory-resolver",
- "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "libp2p",
- "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "rand 0.8.5",
  "serde",
  "serde_bytes",
@@ -3854,11 +3854,11 @@ dependencies = [
  "hyper 0.14.32",
  "kernels",
  "libp2p",
- "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "nockchain",
- "nockchain-libp2p-io 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "nockchain-libp2p-io 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "quiver",
  "rand 0.8.5",
  "reqwest 0.11.27",
@@ -3907,21 +3907,21 @@ dependencies = [
 [[package]]
 name = "nockvm"
 version = "0.1.0"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 dependencies = [
  "autotools",
  "bitvec",
  "cc",
  "either",
- "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "intmap",
  "json",
  "lazy_static",
  "libc",
  "memmap2",
- "murmur3 0.5.2 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm_crypto 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "murmur3 0.5.2 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm_crypto 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "num-derive",
  "num-traits",
  "rand 0.8.5",
@@ -3950,13 +3950,13 @@ dependencies = [
 [[package]]
 name = "nockvm_crypto"
 version = "0.1.0"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 dependencies = [
  "aes",
  "aes-siv",
  "curve25519-dalek",
  "ed25519-dalek",
- "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "sha1",
  "sha2",
  "x25519-dalek",
@@ -3974,7 +3974,7 @@ dependencies = [
 [[package]]
 name = "nockvm_macros"
 version = "0.1.0"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 dependencies = [
  "quote",
  "syn 1.0.109",
@@ -7448,7 +7448,7 @@ dependencies = [
 [[package]]
 name = "zkvm-jetpack"
 version = "0.1.0"
-source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348#4bc6425dacb6fddc60b41428b955be03bdc0f348"
+source = "git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b#aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b"
 dependencies = [
  "argon2",
  "arrayref",
@@ -7456,10 +7456,10 @@ dependencies = [
  "bytes",
  "either",
  "hex-literal",
- "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
- "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=4bc6425dacb6fddc60b41428b955be03bdc0f348)",
+ "ibig 0.3.6 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockapp 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
+ "nockvm_macros 0.1.0 (git+ssh://git@github.com/djkazic/nockchain.git?rev=aa95deae37e5e0e4e11bfb6f0bcfb488a3c8b30b)",
  "num-traits",
  "quickcheck",
  "smallvec",
