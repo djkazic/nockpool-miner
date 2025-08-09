@@ -37,10 +37,10 @@ reqwest = { version = "0.11", default-features = false, features = ["json","rust
 directories = "5.0"
 
 # nockchain
-nockchain = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "4bb2b378eefcbb4dc36d82c2f03df3f2c4563ac7", package = "nockchain" }
-nockvm = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "4bb2b378eefcbb4dc36d82c2f03df3f2c4563ac7", package = "nockvm" }
-nockapp = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "4bb2b378eefcbb4dc36d82c2f03df3f2c4563ac7", package = "nockapp" }
-zkvm-jetpack = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "4bb2b378eefcbb4dc36d82c2f03df3f2c4563ac7", package = "zkvm-jetpack" }
-nockvm_macros = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "4bb2b378eefcbb4dc36d82c2f03df3f2c4563ac7", package = "nockvm_macros" }
-nockchain-libp2p-io = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "4bb2b378eefcbb4dc36d82c2f03df3f2c4563ac7", package = "nockchain-libp2p-io" }
-kernels = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "4bb2b378eefcbb4dc36d82c2f03df3f2c4563ac7", package = "kernels" }
+nockchain = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "21f062a1766761b992c1f2cb3b9f74be66249acc", package = "nockchain" }
+nockvm = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "21f062a1766761b992c1f2cb3b9f74be66249acc", package = "nockvm" }
+nockapp = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "21f062a1766761b992c1f2cb3b9f74be66249acc", package = "nockapp" }
+zkvm-jetpack = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "21f062a1766761b992c1f2cb3b9f74be66249acc", package = "zkvm-jetpack" }
+nockvm_macros = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "21f062a1766761b992c1f2cb3b9f74be66249acc", package = "nockvm_macros" }
+nockchain-libp2p-io = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "21f062a1766761b992c1f2cb3b9f74be66249acc", package = "nockchain-libp2p-io" }
+kernels = { git = "ssh://git@github.com/djkazic/nockchain.git", rev = "21f062a1766761b992c1f2cb3b9f74be66249acc", package = "kernels" }
